@@ -1,0 +1,48 @@
+[
+    {   "id": 1,
+        "name": "Abigail",
+        "quote": "Vroom vroom!",
+        "health": 1075,
+        "stun": 1050,
+        "icon": "abi.png",
+        "fastestNormal": "4f",
+        "bestReversal": "Abigail Special"
+    },
+    {   "id": 2,
+        "name": "Akira",
+        "quote": "If I go too far, please forgive me",
+        "health": 950,
+        "stun": 1000,
+        "icon": "akira_edayan_credit.jpg",
+        "fastestNormal": "3f",
+        "bestReversal": "EX Hotenshu"
+    },
+    {   "id": 3,
+        "name": "Akuma",
+        "quote": "HMPH... so it's you",
+        "health": 900,
+        "stun": 900,
+        "icon": "gouki.png",
+        "fastestNormal": "3f",
+        "bestReversal": "EX Goshoryuken"
+    },
+    {   "id": 4,
+        "name": "Alex",
+        "quote": "Okay, let's rumble",
+        "health": 1050,
+        "stun": 1075,
+        "icon": "alex.png",
+        "fastestNormal": "4f",
+        "bestReversal": "Heavy Hammer"
+    },
+    {
+        "id": 5,
+        "name": "Balrog",
+        "quote": "There's no escape!",
+        "health": 1025,
+        "stun": 1050,
+        "icon": "balrog.png",
+        "fastestNormal": "3f",
+        "bestReversal": "Gigaton Blow"
+    }
+]
