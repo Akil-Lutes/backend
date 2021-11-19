@@ -1,7 +1,14 @@
+const fs = require('fs');
+
+// *** Top Level Code ***
+const characters = JSON.parse(
+    fs.readFileSync(`${__dirname}/../dev-data/data/characters.json`)
+);
 
 
-// *** .get requests *** (event loop)
-app.get('/api/v1/characters', (req, res) => {
+//                                                                  *** Character Route Handler functions Start ***
+// *** .get requests *** 
+exports.getAllCharacters = (req, res) => {
     // send back all characters
     res.status(200).json({
         status: 'success',
@@ -10,4 +17,4 @@ app.get('/api/v1/characters', (req, res) => {
             characters: characters
         }
     })
-})
+}

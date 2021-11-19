@@ -9,14 +9,28 @@ const characterRouter = require('./routes/characterRoutes');
 
 const app = express();
 
+console.log(process.env.NODE_ENV);
+if (process.env.NODE_ENV === 'development') {
+    app.use(morgan('dev'))
+}
 
 // Middleware
 
 app.use(morgan('dev'));
 app.use(express.json());
-// *** Top Level Code ***
-const characters = JSON.parse(
-    fs.readFileSync(`${__dirname}/dev-data/data/characters.json`)
-);
+
+app.use((req, res, next) => {
+    console.log('Hello form the middleware');
+    next();
+})
+
+app.use((req, res, next) => {
+    req.requestTime = new Date().toISOString();
+    next();
+})
+
+// Mounting Routers middleware
+app.use('/api/v1/characters', characterRouter);
 
 
+module.exports = app;
