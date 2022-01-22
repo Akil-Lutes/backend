@@ -34,3 +34,13 @@ app.use('/api/v1/characters', characterRouter);
 
 
 module.exports = app;
+
+
+// *** CRUD ***
+// Post -> Create
+
+// Get -> Read
+
+// Put -> Update 
+
+// Delete -> Delete
