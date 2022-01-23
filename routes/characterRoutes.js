@@ -8,12 +8,17 @@ const characterController = require('./../controllers/characterController');
 const router = express.Router();
 
 // Character Routes
-// Param middleware
+
+// Param middleware - only runs for certain parameters in the url route.
+router.param('id', characterController.checkID);
+
 router
     .route('/')
-    .get(characterController.getAllCharacters)
+    .get(characterController.getAllCharacters);
+    // .post(characterController.checkBody);
 
 router
     .route('/:id')
+    .get(characterController.getCharacter);
 
 module.exports = router;

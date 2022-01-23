@@ -1,8 +1,9 @@
 // Server Related Code
 const dotenv = require('dotenv');
-dotenv.config({ path: './config.env' })
 
 const app = require('./app');
+
+dotenv.config({ path: './config.env' })
 
 // Port
 const port = process.env.PORT || 8000;
