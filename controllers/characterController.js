@@ -55,3 +55,10 @@ exports.getCharacter = (req, res) => {
         }
     })
 };
+
+// *** .post requests ***
+exports.createCharacter = (req, res) => {
+    console.log(req.body);
+    const newId = characters[characters.length - 1].id + 1;
+    const newCharacter = Object.assign({ id: newId }, req.body);
+}
