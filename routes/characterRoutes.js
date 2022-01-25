@@ -14,11 +14,13 @@ router.param('id', characterController.checkID);
 
 router
     .route('/')
-    .get(characterController.getAllCharacters);
-    // .post(characterController.checkBody);
+    .get(characterController.getAllCharacters)
+    .post(characterController.checkBody, characterController.createCharacter);
 
 router
     .route('/:id')
-    .get(characterController.getCharacter);
+    .get(characterController.getCharacter)
+    .patch(characterController.updateCharacter)
+    .delete(characterController.deleteCharacter);
 
 module.exports = router;

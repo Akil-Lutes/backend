@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { stringify } = require('querystring');
 
 // *** Top Level Code ***
 const characters = JSON.parse(
@@ -61,4 +62,39 @@ exports.createCharacter = (req, res) => {
     console.log(req.body);
     const newId = characters[characters.length - 1].id + 1;
     const newCharacter = Object.assign({ id: newId }, req.body);
+
+    characters.push(newCharacter)
+
+    fs.writeFile(
+        `${__dirname}/dev-data/data/characters.json`,
+        JSON.stringify(characters),
+        err => {
+            res.status(201).json({
+                status: 'success',
+                data: {
+                    character: newCharacter
+                }
+            })
+        }
+    )
 }
+
+// *** .post request ***
+exports.updateCharacter = (req, res) => {
+    res.status(200).json({
+        status: 'success',
+        data: {
+            character: '<Updated character here...>'
+        }
+    })
+}
+
+// *** .delete request ***
+exports.deleteCharacter = (req, res) => {
+    res.status(204).json({
+        status: 'success',
+        data: null
+    })
+}
+
+//                                                                  *** Character Route Handler functions End ***
