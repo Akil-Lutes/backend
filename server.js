@@ -1,9 +1,28 @@
 // Server Related Code
+const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
 const app = require('./app');
 
-dotenv.config({ path: './config.env' })
+dotenv.config({ path: './config.env' });
+
+
+
+
+const DB = process.env.DATABASE.replace(
+    '<PASSWORD>',
+    process.env.DATABASE_PASSWORD
+);
+
+// Deprecation options
+mongoose.connect(DB, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false
+}).then(con => {
+    console.log(con.connections);
+    console.log('DB connection successful!');
+});
 
 // Port
 const port = process.env.PORT || 8000;
