@@ -15,14 +15,26 @@ const DB = process.env.DATABASE.replace(
 );
 
 // Deprecation options
-mongoose.connect(DB, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false
-}).then(con => {
-    console.log(con.connections);
-    console.log('DB connection successful!');
-});
+// Hosted Database
+// mongoose.connect(DB, {
+//     useNewUrlParser: true,
+//     useCreateIndex: true,
+//     useFindAndModify: false
+// }).then(con => {
+//     console.log(con.connections);
+//     console.log('DB connection successful!');
+// });
+
+// Database Local Connection
+mongoose
+    .connect(process.env.DATABASE_LOCAL, {
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        useFindAndModify: false
+    }).then(con => {
+        console.log(con.connections);
+        console.log('DB connection successful!');
+    });
 
 // Port
 const port = process.env.PORT || 8000;
