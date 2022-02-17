@@ -6,6 +6,10 @@ const characterSchema = new mongoose.Schema({
         required: [true, 'A character must have a name'],
         unique: true
     },
+    quote: {
+        type: String,
+        required: [true, 'A character must have a quote']
+    },
     health: {
         type: Number,
         required: [true, 'A character must have health points']
@@ -14,7 +18,7 @@ const characterSchema = new mongoose.Schema({
         type: Number,
         required: [true, 'A character must have stun points']
     },
-    img: {
+    icon: {
         data: Buffer,
         contentType: String
     },
@@ -22,6 +26,6 @@ const characterSchema = new mongoose.Schema({
     bestReversal: String
 });
 
-const character = mongoose.model('character', characterSchema);
+const Character = mongoose.model('character', characterSchema);
 
-module.exports = character;
+module.exports = Character;

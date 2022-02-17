@@ -1,100 +1,109 @@
-const fs = require('fs');
-// const { stringify } = require('querystring');
-
-// *** Top Level Code ***
-const characters = JSON.parse(
-    fs.readFileSync(`${__dirname}/../dev-data/data/characters.json`)
-);
+const Character = require('./../models/characterModel')
 
 // param middleware
-exports.checkID = (req, res, next, value) => {
-    console.log(`Character ID is: ${value}`)
-    if (req.params.id * 1 > characters.length) {
-        return res.status(404).json({
-            status: 'fail',
-            message: 'Invalid ID'
-        });
-    }
-    next();
-};
-
-exports.checkBody = (req, res, next) => {
-    if (!req.body.name) {
-        return res.status(400).json({
-            status: 'fail',
-            message: 'Missing Name'
-        })
-    }
-    next();
-}
-
-
-
 
 //                                                                  *** Character Route Handler functions Start ***
 // *** .get request *** 
-exports.getAllCharacters = (req, res) => {
-    // send back all characters
-    res.status(200).json({
-        status: 'success',
-        results: characters.length,
-        data: {
-            characters: characters
-        }
-    })
+exports.getAllCharacters = async (req, res) => {
+    try {
+
+        const characters = await Character.find();
+        // send back all characters
+        res.status(200).json({
+            status: 'success',
+            results: characters.length,
+            data: {
+                characters: characters
+            }
+        });
+    } catch (err) {
+        res.status(404).json({
+            status: 'fail',
+            message: err
+        })
+    }
 };
 
 // *** get request ***
-exports.getCharacter = (req, res) => {
-    console.log(req.params)
-    const id = req.params.id * 1;
-    const character = characters.find(elem => elem.id === id) // loops through array in characters.json, creates array of id === req.params (true)
-    res.status(200).json({
-        status: 'success',
-        data: {
-            characters: character
-        }
-    })
+exports.getCharacter = async (req, res) => {
+    try {
+
+        const character = await Character.findById(req.params.id);
+
+        res.status(200).json({
+            status: 'success',
+            data: {
+                characters: character
+            }
+        });
+    } catch (err) {
+        res.status(404).json({
+            status: 'fail',
+            message: err
+        });
+    }
 };
 
 // *** .post requests ***
-exports.createCharacter = (req, res) => {
-    console.log(req.body);
-    const newId = characters[characters.length - 1].id + 1;
-    const newCharacter = Object.assign({ id: newId }, req.body);
+exports.createCharacter = async (req, res) => {
+    try {
 
-    characters.push(newCharacter)
+        const newCharacter = await Character.create(req.body);
 
-    fs.writeFile(
-        `${__dirname}/dev-data/data/characters.json`,
-        JSON.stringify(characters),
-        err => {
-            res.status(201).json({
-                status: 'success',
-                data: {
-                    character: newCharacter
-                }
-            })
-        }
-    )
+        res.status(201).json({
+            status: 'success',
+            data: {
+                character: newCharacter
+            }
+        });
+    } catch (err) {
+        res.status(400).json({
+            status: 'fail',
+            message: err
+        });
+    }
 }
 
 // *** .post request ***
-exports.updateCharacter = (req, res) => {
-    res.status(200).json({
-        status: 'success',
-        data: {
-            character: '<Updated character here...>'
-        }
-    })
+exports.updateCharacter = async (req, res) => {
+    try {
+
+        const character = await Character.findByIdAndUpdate(req.params.id, req.body, {
+            // new updated document will be returned to client
+            new: true,
+            runValidator: true
+        });
+
+        res.status(200).json({
+            status: 'success',
+            data: {
+                character
+            }
+        });
+    } catch (err) {
+        res.status(404).json({
+            status: 'fail',
+            message: err
+        });
+    }
 }
 
 // *** .delete request ***
-exports.deleteCharacter = (req, res) => {
-    res.status(204).json({
-        status: 'success',
-        data: null
-    })
+exports.deleteCharacter = async (req, res) => {
+    try {
+
+        await Character.findByIdAndDelete(req.params.id);
+
+        res.status(204).json({
+            status: 'success',
+            data: null
+        });
+    } catch (err) {
+        res.status(404).json({
+            status: 'fail',
+            message: err
+        });
+    }
 }
 
 //                                                                  *** Character Route Handler functions End ***

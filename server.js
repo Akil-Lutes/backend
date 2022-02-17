@@ -9,7 +9,7 @@ dotenv.config({ path: './config.env' });
 
 
 
-const DB = process.env.DATABASE.replace(
+const DB = process.env.DATABASE_LOCAL.replace(
     '<PASSWORD>',
     process.env.DATABASE_PASSWORD
 );
@@ -17,6 +17,7 @@ const DB = process.env.DATABASE.replace(
 // Deprecation options
 // Hosted Database
 // mongoose.connect(DB, {
+    // these options are not available in mongoose versions 6 & up
 //     useNewUrlParser: true,
 //     useCreateIndex: true,
 //     useFindAndModify: false
@@ -27,11 +28,7 @@ const DB = process.env.DATABASE.replace(
 
 // Database Local Connection
 mongoose
-    .connect(process.env.DATABASE_LOCAL, {
-        useNewUrlParser: true,
-        useCreateIndex: true,
-        useFindAndModify: false
-    }).then(con => {
+    .connect(process.env.DATABASE_LOCAL).then(con => {
         console.log(con.connections);
         console.log('DB connection successful!');
     });
