@@ -1,9 +1,9 @@
 const fs = require('fs');
-const mongoose = require('monsgoose');
+const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const Character = require('./../models/characterModel');
+const Character = require('./../../models/characterModel');
 
-dotenv.config({ path: `${__dirname}/../..config.env` });
+dotenv.config({ path: `${__dirname}./../../config.env` });
 
 const DB = process.env.DATABASE_LOCAL.replace(
     '<PASSWORD>',
@@ -19,7 +19,7 @@ mongoose
 
 // Read JSON file
 const characters = JSON.parse(
-    fs.readFileSync(`${__dirname}/tours-simple.json`, 'utf-8')
+    fs.readFileSync(`${__dirname}/characters.json`, 'utf-8')
 );
 
 // Import Data into Database
@@ -45,7 +45,7 @@ const deleteData = async () => {
     process.exit();
 }
 
-if (process.arg[2] === '--import') {
+if (process.argv[2] === '--import') {
     importData();
 } else if (process.argv[2] === '--delete') {
     deleteData();
