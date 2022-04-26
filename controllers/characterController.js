@@ -1,6 +1,5 @@
-const Character = require('./../models/characterModel')
-
-// param middleware
+const Character = require('./../models/characterModel');
+const APIFeatures = require('./../utils/apiFeatures');
 
 //                                                                  *** Character Route Handler functions Start ***
 // *** .get request *** 
@@ -107,3 +106,4 @@ exports.deleteCharacter = async (req, res) => {
 }
 
 //                                                                  *** Character Route Handler functions End ***
+

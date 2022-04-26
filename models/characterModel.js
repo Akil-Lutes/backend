@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
+const slugify = require('slugify');
 
+// Schema
 const characterSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -27,5 +29,20 @@ const characterSchema = new mongoose.Schema({
 });
 
 const Character = mongoose.model('character', characterSchema);
+
+// Document Pre Middleware
+characterSchema.pre('save', function (next) {
+    console.log(doc);
+    this.slug = slugify(this.name, { lower: true });
+    next();
+});
+
+// Aggregation Middleware pipeline
+characterSchema.pre('aggregate', function (next) {
+    // this.pipeline().unshift({ $match: { secretCharacter: { $ne: true } } });
+
+    console.log(this.pipeline());
+    next();
+})
 
 module.exports = Character;
