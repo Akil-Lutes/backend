@@ -2,11 +2,25 @@ const Character = require('./../models/characterModel');
 const APIFeatures = require('./../utils/apiFeatures');
 
 //                                                                  *** Character Route Handler functions Start ***
-// *** .get request *** 
+// *** .get request ***
+// Middleware
+exports.aliasTopCharacters = (req, res, next) => {
+    req.query.limit = '5';
+    req.query.sort = '-health,stun'
+    req.query.fields = 'name,health,stun,quote'
+    next();
+}
+
 exports.getAllCharacters = async (req, res) => {
     try {
 
-        const characters = await Character.find();
+        const features = new APIFeatures(Character.find(), req.query)
+            .filter()
+            .sort()
+            .limitFields()
+            .paginate();
+
+        const characters = await features.query;
         // send back all characters
         res.status(200).json({
             status: 'success',
@@ -97,6 +111,28 @@ exports.deleteCharacter = async (req, res) => {
             status: 'success',
             data: null
         });
+    } catch (err) {
+        res.status(404).json({
+            status: 'fail',
+            message: err
+        });
+    }
+}
+
+exports.getHealthStats = async (req, res) => {
+    try {
+        const stats = await Character.aggregate([
+            {
+                $match: { health: {$gte: 1000} }
+            }
+        ])
+
+        res.status(200).json({
+            status: 'success',
+            data: {
+                stats
+            }
+        })
     } catch (err) {
         res.status(404).json({
             status: 'fail',

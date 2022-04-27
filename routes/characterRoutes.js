@@ -7,8 +7,12 @@ const characterController = require('./../controllers/characterController');
 // Character Router
 const router = express.Router();
 
-// Character Routes
+// Special routes
+router
+    .route('/get-health-stats')
+    .get(characterController.getHealthStats)
 
+// Character Routes
 router
     .route('/')
     .get(characterController.getAllCharacters)
