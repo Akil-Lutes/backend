@@ -4,11 +4,13 @@
   "description": "backend of sfv characters frame data",
   "main": "app.js",
   "devDependencies": {
-    "cross-env": "^7.0.3"
+    "cross-env": "^7.0.3",
+    "ndb": "^1.1.5"
   },
   "scripts": {
     "start:dev": "cross-env nodemon server.js",
-    "start:prod": "cross-env NODE_ENV=production nodemon server.js"
+    "start:prod": "cross-env NODE_ENV=production nodemon server.js",
+    "debug": "ndb server.js"
   },
   "author": "Akil Lutes",
   "license": "ISC",
