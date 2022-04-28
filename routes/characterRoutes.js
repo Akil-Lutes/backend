@@ -9,6 +9,9 @@ const router = express.Router();
 
 // Special routes
 router
+    .route('/top-5-health')
+    .get(characterController.aliasTopHealthCharacters, characterController.getAllCharacters)
+router
     .route('/get-health-stats')
     .get(characterController.getHealthStats)
 

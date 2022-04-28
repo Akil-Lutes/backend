@@ -4,7 +4,7 @@ const APIFeatures = require('./../utils/apiFeatures');
 //                                                                  *** Character Route Handler functions Start ***
 // *** .get request ***
 // Middleware
-exports.aliasTopCharacters = (req, res, next) => {
+exports.aliasTopHealthCharacters = (req, res, next) => {
     req.query.limit = '5';
     req.query.sort = '-health,stun'
     req.query.fields = 'name,health,stun,quote'
