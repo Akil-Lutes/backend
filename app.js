@@ -33,6 +33,11 @@ app.use((req, res, next) => {
 app.use('/api/v1/characters', characterRouter);
 
 
+
+// Global ERROR HANDLING Middleware (Express)
+// documentation https://expressjs.com/en/guide/error-handling.html
+
+
 module.exports = app;
 
 
