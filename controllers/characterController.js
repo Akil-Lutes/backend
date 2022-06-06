@@ -1,3 +1,4 @@
+const AppError = require('../utils/appError');
 const Character = require('./../models/characterModel');
 const APIFeatures = require('./../utils/apiFeatures');
 
@@ -11,8 +12,7 @@ exports.aliasTopHealthCharacters = (req, res, next) => {
     next();
 }
 
-exports.getAllCharacters = async (req, res) => {
-    try {
+exports.getAllCharacters = catchAsync(async (req, res, next) => {
 
         const features = new APIFeatures(Character.find(), req.query)
             .filter()
@@ -29,17 +29,14 @@ exports.getAllCharacters = async (req, res) => {
                 characters: characters
             }
         });
-    } catch (err) {
         res.status(404).json({
             status: 'fail',
             message: err
         })
-    }
-};
+});
 
 // *** get request ***
-exports.getCharacter = async (req, res) => {
-    try {
+exports.getCharacter = catchAsync(async (req, res, next) => {
 
         const character = await Character.findById(req.params.id);
 
@@ -49,17 +46,14 @@ exports.getCharacter = async (req, res) => {
                 characters: character
             }
         });
-    } catch (err) {
         res.status(404).json({
             status: 'fail',
             message: err
         });
-    }
-};
+});
 
 // *** .post requests ***
-exports.createCharacter = async (req, res) => {
-    try {
+exports.createCharacter = catchAsync(async (req, res) => {
 
         const newCharacter = await Character.create(req.body);
 
@@ -69,17 +63,14 @@ exports.createCharacter = async (req, res) => {
                 character: newCharacter
             }
         });
-    } catch (err) {
         res.status(400).json({
             status: 'fail',
             message: err
         });
-    }
-}
+});
 
 // *** .post request ***
-exports.updateCharacter = async (req, res) => {
-    try {
+exports.updateCharacter = catchAsync(async (req, res) => {
 
         const character = await Character.findByIdAndUpdate(req.params.id, req.body, {
             // new updated document will be returned to client
@@ -93,37 +84,37 @@ exports.updateCharacter = async (req, res) => {
                 character
             }
         });
-    } catch (err) {
         res.status(404).json({
             status: 'fail',
             message: err
         });
-    }
-}
+});
 
 // *** .delete request ***
-exports.deleteCharacter = async (req, res) => {
-    try {
+exports.deleteCharacter = catchAsync(async (req, res, next) => {
 
-        await Character.findByIdAndDelete(req.params.id);
+    const character = await Character.findByIdAndDelete(req.params.id, req.body, {
+        // new updated document will be returned to client
+        new: true,
+        // validators are ran again ex. maximum length or minimum length in the tour-schema
+        runValidators: true
+        });
 
+        if (!character) {
+        return next(new AppError('No character found that name', 404));
+        }
+        
         res.status(204).json({
             status: 'success',
-            data: null
+            data: null // data no longer exists
         });
-    } catch (err) {
-        res.status(404).json({
-            status: 'fail',
-            message: err
-        });
-    }
-}
+});
 
-exports.getHealthStats = async (req, res) => {
+exports.getHealthStats = catchAsync(async (req, res) => {
     try {
         const stats = await Character.aggregate([
             {
-                $match: { health: {$gte: 1000} }
+                $match: { health: { $gte: 1000 } }
             }
         ])
 
@@ -139,7 +130,7 @@ exports.getHealthStats = async (req, res) => {
             message: err
         });
     }
-}
+});
 
 //                                                                  *** Character Route Handler functions End ***
 

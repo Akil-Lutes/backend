@@ -4,7 +4,8 @@
 const express = require("express");
 const morgan = require('morgan');
 
-
+const AppError = require('./utils/appError');
+const globalErrorHandler = require('./controllers/errorController')
 const characterRouter = require('./routes/characterRoutes');
 
 const app = express();
@@ -32,11 +33,15 @@ app.use((req, res, next) => {
 // Mounting Routers middleware
 app.use('/api/v1/characters', characterRouter);
 
+// Router ERROR HANDLING
+app.all('*', (req, res, next) => {
+    next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404)); // This is why I can just pass in just next in my catchAsync function catch/promise
+});
 
 
 // Global ERROR HANDLING Middleware (Express)
 // documentation https://expressjs.com/en/guide/error-handling.html
-
+app.use(globalErrorHandler);
 
 module.exports = app;
 
